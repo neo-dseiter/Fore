@@ -12,15 +12,15 @@
         <button type="submit">Add Round</button>
     </form>
 
-    <form action="/delete" method="post">
-        <input type="number" name="round_id" placeholder="Round ID" required>
-        <button type="submit">Delete Round</button>
-    </form>
-
     <h2>Rounds</h2>
     <ul>
         {% for round in rounds %}
-            <li>#{{ round.id }} — {{ round.course }} — {{ round.score }}</li>
+            <li>#{{ round.id }} — {{ round.course }} — {{ round.score }}
+                <form action="/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="round_id" value="{{ round.id }}">
+                    <button type="submit">Delete Round</button>
+                </form>
+            </li>
         {% else %}
             <li>No rounds yet!</li>
         {% endfor %}
