@@ -15,7 +15,7 @@
     <h2>Rounds</h2>
     <ul>
         {% for round in rounds %}
-            <li>{{ round.course }} — {{ round.score }}</li>
+            <li>#{{ round.id }} — {{ round.course }} — {{ round.score }}</li>
         {% else %}
             <li>No rounds yet!</li>
         {% endfor %}
