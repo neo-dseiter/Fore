@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
+import matplotlib.pyplot as plt
+from io import BytesIO
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///golf.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -47,6 +50,24 @@ def delete_round():
             print(f"No round found with id {round_id}")
     return redirect(url_for("index"))
 
+@app.route("/plot.png")
+def plot_png():
+    rounds = GolfRound.query.order_by(GolfRound.id).all()
+    scores = [r.score for r in rounds]
+    round_id = [r.id for r in rounds]
+
+    fig, ax = plt.subplots()
+    ax.plot(round_id, scores, marker='o')
+    ax.set_title("Golf Scores Over Time")
+    ax.set_xlabel("Round ID")
+    ax.set_ylabel("Score")
+    ax.grid(True)
+
+    img = BytesIO()
+    fig.savefig(img, format='png')
+    img.seek(0)
+    plt.close(fig)
+    return app.response_class(img.getvalue(), mimetype='image/png')
 
 if __name__ == "__main__":
     with app.app_context():
