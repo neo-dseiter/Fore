@@ -34,6 +34,19 @@ def add_round():
         db.session.commit()
     return redirect(url_for("index"))
 
+@app.route("/delete", methods=["POST"])
+def delete_round():
+    round_id = request.form.get("round_id")
+    if round_id:
+        # locate the round by id and delete it
+        round_to_delete = GolfRound.query.get(int(round_id))
+        if round_to_delete:
+            db.session.delete(round_to_delete)
+            db.session.commit()
+        else:
+            print(f"No round found with id {round_id}")
+    return redirect(url_for("index"))
+
 
 if __name__ == "__main__":
     with app.app_context():
