@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <title>Golf Tracker</title>
+</head>
+<body>
+    <h1>My Golf Rounds</h1>
+
+    <form action="/add" method="post">
+        <input type="text" name="course" placeholder="Course name" required>
+        <input type="number" name="score" placeholder="Score" required>
+        <button type="submit">Add Round</button>
+    </form>
+
+    <h2>Rounds</h2>
+    <ul>
+        {% for round in rounds %}
+            <li>{{ round.course }} — {{ round.score }}</li>
+        {% else %}
+            <li>No rounds yet!</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
